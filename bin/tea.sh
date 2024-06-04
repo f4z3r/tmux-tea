@@ -43,7 +43,9 @@ if [ "$TMUX_RUNNING" -eq 0 ]; then
 fi
 
 get_sessions_by_last_used() {
+    # custom function, do not allow to switch to quake or popup sessions
     tmux list-sessions -F '#{session_last_attached} #{session_name}' |
+        rg -v "quake|popup" |
         sort --numeric-sort --reverse | awk '{print $2}' | grep -v "$(tmux display-message -p '#S')"
 }
 
