@@ -17,7 +17,7 @@ MARKER=''
 BORDER_LABEL='   tmux-tea   '
 HEADER="^f   ^j   ^s   ^w   ^x "
 
-T_BIND="ctrl-t:abort"
+T_BIND="ctrl-y:abort"
 TAB_BIND="tab:down,btab:up"
 SESSION_BIND="ctrl-s:change-prompt(  )+reload(tmux list-sessions -F '#S')+change-preview-window(top,85%)"
 ZOXIDE_BIND="ctrl-j:change-prompt(  )+reload(zoxide query -l | sed -e \"$HOME_REPLACER\")+change-preview(eval $DIR_PREVIEW_CMD {})+change-preview-window(right)"
