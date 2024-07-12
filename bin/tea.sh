@@ -88,7 +88,7 @@ else
                 --bind "$FIND_BIND" --bind "$SESSION_BIND" --bind "$TAB_BIND" --bind "$WINDOW_BIND" --bind "$T_BIND" \
                 --bind "$ZOXIDE_BIND" --bind "$KILL_BIND" --border-label "$BORDER_LABEL" --header "$HEADER" \
                 --no-sort --prompt "$PROMPT" --marker "$MARKER" --preview "$PREVIEW" \
-                --preview-window=top,75% "$FZF_TMUX_OPTS"
+                --preview-window=top,75% "$FZF_TMUX_OPTS" $FZF_DEFAULT_OPTS
         )
         ;;
     detached)
@@ -97,7 +97,7 @@ else
                 --bind "$FIND_BIND" --bind "$SESSION_BIND" --bind "$TAB_BIND" --bind "$WINDOW_BIND" --bind "$T_BIND" \
                 --bind "$ZOXIDE_BIND" --bind "$KILL_BIND" --border-label "$BORDER_LABEL" --header "$HEADER" \
                 --no-sort --prompt "$PROMPT" --marker "$MARKER" --preview "$PREVIEW" \
-                --preview-window=top,75%
+                --preview-window=top,75% $FZF_DEFAULT_OPTS
         )
         ;;
     serverless)
@@ -105,7 +105,7 @@ else
             (get_fzf_results) | fzf \
                 --bind "$FIND_BIND" --bind "$TAB_BIND" --bind "$ZOXIDE_BIND" --bind "$KILL_BIND" --bind "$T_BIND" \
                 --border-label "$BORDER_LABEL" --header "$HEADER" --no-sort --prompt "$PROMPT" --marker "$MARKER" \
-                --preview "$DIR_PREVIEW_CMD {}"
+                --preview "$DIR_PREVIEW_CMD {}" $FZF_DEFAULT_OPTS
         )
         ;;
     esac
