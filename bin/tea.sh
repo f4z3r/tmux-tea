@@ -38,7 +38,7 @@ session_bind="ctrl-s:change-prompt(  )+reload(tmux list-sessions -F '#S')+
 zoxide_bind="ctrl-j:change-prompt(  )+reload(zoxide query -l | sed -e \"$home_replacer\")+change-preview(eval $dir_preview_cmd {})+change-preview-window(right)"
 find_bind="ctrl-f:change-prompt(  )+reload(fd -H -d $max_depth -t d . $find_path | sed 's|/$||')+change-preview($dir_preview_cmd {})+change-preview-window(right)"
 window_bind="ctrl-w:change-prompt(  )+reload(tmux list-windows -a -F '#{session_name}:#{window_index}')+change-preview($session_preview_cmd {})+change-preview-window($preview_position)"
-kill_bind="ctrl-x:change-prompt(  )+execute-silent(tmux kill-session -t {})+reload-sync(tmux list-sessions -F '#S' && zoxide query -l | sed -e \"$home_replacer\")"
+kill_bind="ctrl-x:change-prompt(  )+execute-silent(tmux kill-session -t {})+reload-sync(tmux list-sessions -F '#S' | rg -v 'quake|popup' && zoxide query -l | sed -e \"$home_replacer\")"
 
 # determine if the tmux server is running
 tmux_running=1
@@ -50,6 +50,7 @@ run_type="serverless"
 
 get_sessions_by_last_used() {
     tmux list-sessions -F '#{session_last_attached} #{session_name}' |
+        rg -v 'quake|popup' |
         sort --numeric-sort --reverse | awk '{print $2}' | grep -v -E "^$(tmux display-message -p '#S')$"
 }
 
@@ -87,20 +88,20 @@ else
             --bind "$find_bind" --bind "$session_bind" --bind "$tab_bind" --bind "$window_bind" --bind "$t_bind" \
             --bind "$zoxide_bind" --bind "$kill_bind" --border-label "$border_label" --header "$header" \
             --no-sort --cycle --delimiter='/' --with-nth="$show_nth" --keep-right --prompt "$prompt" --marker "$marker" \
-            --preview "$preview" --preview-window="$preview_position",75% "$fzf_tmux_options" --layout="$layout")
+            --preview "$preview" --preview-window="$preview_position",75% "$fzf_tmux_options" $FZF_DEFAULT_OPTS --layout="$layout")
         ;;
     detached)
         result=$(get_fzf_results | fzf \
             --bind "$find_bind" --bind "$session_bind" --bind "$tab_bind" --bind "$window_bind" --bind "$t_bind" \
             --bind "$zoxide_bind" --bind "$kill_bind" --border-label "$border_label" --header "$header" \
             --no-sort --cycle --delimiter='/' --with-nth="$show_nth" --keep-right --prompt "$prompt" --marker "$marker" \
-            --preview "$preview" --preview-window=top,75%)
+            --preview "$preview" --preview-window=top,75% $FZF_DEFAULT_OPTS)
         ;;
     serverless)
         result=$(get_fzf_results | fzf \
             --bind "$find_bind" --bind "$tab_bind" --bind "$zoxide_bind" --bind "$kill_bind" --bind "$t_bind" \
             --border-label "$border_label" --header "$header" --no-sort --cycle --delimiter='/' --with-nth="$show_nth" \
-            --keep-right --prompt "$prompt" --marker "$marker" --preview "$dir_preview_cmd {}")
+            --keep-right --prompt "$prompt" --marker "$marker" --preview "$dir_preview_cmd {}" $FZF_DEFAULT_OPTS)
         ;;
     esac
 fi
