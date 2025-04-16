@@ -87,20 +87,20 @@ else
         result=$(get_fzf_results | fzf-tmux \
             --bind "$find_bind" --bind "$session_bind" --bind "$tab_bind" --bind "$window_bind" --bind "$t_bind" \
             --bind "$zoxide_bind" --bind "$kill_bind" --border-label "$border_label" --header "$header" \
-            --no-sort --cycle --delimiter='/' --with-nth="$show_nth" --keep-right --prompt "$prompt" --marker "$marker" \
+            --no-sort --cycle --keep-right --prompt "$prompt" --marker "$marker" \
             --preview "$preview" --preview-window="$preview_position",75% "$fzf_tmux_options" $FZF_DEFAULT_OPTS --layout="$layout")
         ;;
     detached)
         result=$(get_fzf_results | fzf \
             --bind "$find_bind" --bind "$session_bind" --bind "$tab_bind" --bind "$window_bind" --bind "$t_bind" \
             --bind "$zoxide_bind" --bind "$kill_bind" --border-label "$border_label" --header "$header" \
-            --no-sort --cycle --delimiter='/' --with-nth="$show_nth" --keep-right --prompt "$prompt" --marker "$marker" \
+            --no-sort --cycle --keep-right --prompt "$prompt" --marker "$marker" \
             --preview "$preview" --preview-window=top,75% $FZF_DEFAULT_OPTS)
         ;;
     serverless)
         result=$(get_fzf_results | fzf \
             --bind "$find_bind" --bind "$tab_bind" --bind "$zoxide_bind" --bind "$kill_bind" --bind "$t_bind" \
-            --border-label "$border_label" --header "$header" --no-sort --cycle --delimiter='/' --with-nth="$show_nth" \
+            --border-label "$border_label" --header "$header" --no-sort --cycle \
             --keep-right --prompt "$prompt" --marker "$marker" --preview "$dir_preview_cmd {}" $FZF_DEFAULT_OPTS)
         ;;
     esac
